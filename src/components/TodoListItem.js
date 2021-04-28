@@ -1,5 +1,10 @@
 import React, {useState} from "react";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+
+const selectTodos = (state) => state.todos;
+
 
 
 
@@ -7,20 +12,36 @@ const TodoListItem = ({ id, text }) => {
     const [selectValue, setSelectVale] = useState('')
     const [active, setActive] = useState(true)
     const dispatch = useDispatch();
+    const todos = useSelector(selectTodos);
+    console.log(todos)
 
+
+    console.log()
 
     const handleRemoveTodo = () => {
         dispatch({type: "REMOVE_TODO", payload: id})
     }
 
+    const handleChangeSelect = (e) => {
+        e.preventDefault();
+        setSelectVale(e.target.value);
+        dispatch({type: "ADD_SELECT_OPTION", payload:e.target.value, id: id})
+    }
+
+    const handleChangeActive = () => {
+        setActive(!active);
+        dispatch({type: "ADD_ACTIVE", payload:active, id: id})
+    }
+
+
     return(
         <div className="todo-item"  >
             <div style={{opacity: active ? "1" : "0.2"}} className="todo-item-card">
-                <input className="toggle" type="checkbox" value={active} onChange={() => setActive(!active)} />
+                <input className="toggle" type="checkbox" value={active} onChange={handleChangeActive} />
                 <div className="text"> {text} </div>
                 <select 
                     value={selectValue} 
-                    onChange={(e) => setSelectVale(e.target.value)} 
+                    onChange={handleChangeSelect} 
                     style={{color: `${selectValue}` }}
                     className="colorPicker"  >
                     <option value=""></option>

@@ -30,7 +30,7 @@
 
 .todo-card{
     width: 50%;
-    height: 70%;
+    height: 80%;
     background: white;
     box-shadow: 0 0 5px 5px #ccc;
 }
@@ -91,4 +91,70 @@
 .todo-item-card .close-btn i:hover{
     color: red;
     transform: scale(0.8)
+}
+
+
+.todo-list-form{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.todo-list-form .todo-list{
+    flex: 3;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.todo-list-form .filter-form{
+    flex: 2;
+    border-top: 4px #ccc double;
+    display: flex;
+    justify-content:space-between;
+}
+
+.todo-list-form .filter-form .actions{
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 60px;
+
+}
+
+.todo-list-form .filter-form .filter-status{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+}
+
+.todo-list-form .filter-form .filter-color-tag{
+    flex: 2;
+}
+
+
+.all-complete{
+    width: 100%;
+    background: blue;
+    padding: 4px 0;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: 600;
+}
+
+.sort{
+    font-weight: 600;
+    color: black;
+    border: 2px orange solid;
+    margin: 2px 5px;
+    width: 45%;
+
+}
+
+.sort:hover{
+    background: orange;
 }
