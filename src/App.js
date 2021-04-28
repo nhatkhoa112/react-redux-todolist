@@ -1,8 +1,11 @@
 import React from 'react'
+import Header from './components/Header'
+import TodoList from './components/TodoList'
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <nav>
         <section>
           <h1>Redux Fundamentals Example</h1>
@@ -12,9 +15,14 @@ function App() {
           </div>
         </section>
       </nav>
-      <section>
-        <h2>Welcome to the Redux Fundamentals example app!</h2>
-      </section>
+      <div className="App" >
+      <h2>Todos</h2>
+        <div className="todo-card">
+          <Header />
+          <TodoList />
+        </div>
+       
+      </div>
     </div>
   )
 }
