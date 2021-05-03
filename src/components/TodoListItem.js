@@ -1,47 +1,53 @@
 import React, {useState} from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import {deleteTodo, addTag, addStatus, updateTodo} from '../redux/actions';
+// import { useSelector } from "react-redux";
 
 
-const selectTodos = (state) => state.todos;
+// const selectTodos = (state) => state.todos;
 
-
-
-
-const TodoListItem = ({ id, text }) => {
-    const [selectValue, setSelectVale] = useState('')
-    const [active, setActive] = useState(true)
+const TodoListItem = ({ todo }) => {
+    // const todos = useSelector(selectTodos);
+    const [selectValue, setSelectVale] = useState('');
+    const [editable, setEditable] = useState(false);
+    const [text, setText] = useState(todo.text)
+    // const newTodo = todos.find(t => t.id === todo.id );
+    const [status, setStatus] = useState(todo.status);
     const dispatch = useDispatch();
-    const todos = useSelector(selectTodos);
-    console.log(todos)
+    
+    
 
-
-    console.log()
-
-    const handleRemoveTodo = () => {
-        dispatch({type: "REMOVE_TODO", payload: id})
-    }
-
-    const handleChangeSelect = (e) => {
+    const handleChangeTag = (e) => {
         e.preventDefault();
         setSelectVale(e.target.value);
-        dispatch({type: "ADD_SELECT_OPTION", payload:e.target.value, id: id})
+        dispatch(addTag(todo.id, e.target.value))
     }
 
-    const handleChangeActive = () => {
-        setActive(!active);
-        dispatch({type: "ADD_ACTIVE", payload:active, id: id})
+    const handleChangeStatus = () => {
+        setStatus(!status);
+        dispatch(addStatus(todo.id, !status))
     }
-
 
     return(
         <div className="todo-item"  >
-            <div style={{opacity: active ? "1" : "0.2"}} className="todo-item-card">
-                <input className="toggle" type="checkbox" value={active} onChange={handleChangeActive} />
-                <div className="text"> {text} </div>
+            <div style={{opacity: status ? "0.2" : "1", background: `${todo.tag}` || `${selectValue}`  || "rgba(25, 10, 233, 0.4)"}} className="todo-item-card">
+                <input className="toggle" type="checkbox" value={status}  onChange={handleChangeStatus} />
+                <div className="text"> 
+                    {editable ?
+                        <input type="text" className="form-control"
+                            value={text}
+                            onChange={(e) => {
+                                setText(e.target.value);
+                            }}
+
+                        />
+                        :
+                        <h4>{todo.text}</h4>
+                    }
+                </div>
                 <select 
-                    value={selectValue} 
-                    onChange={handleChangeSelect} 
+                    value={todo.tag || selectValue  } 
+                    onChange={handleChangeTag} 
                     style={{color: `${selectValue}` }}
                     className="colorPicker"  >
                     <option value=""></option>
@@ -53,7 +59,21 @@ const TodoListItem = ({ id, text }) => {
                 </select>
                 <div className="close-btn">
                     <i 
-                        onClick={handleRemoveTodo}
+                        onClick={() => {
+                        dispatch(updateTodo({
+                            ...todo,
+                            text: text
+                        }))
+                        if(editable) {
+                            setText(todo.text);   
+                        }
+                        setEditable(!editable);
+    
+
+                    }}
+                        className={ editable ? "fas fa-edit" : "fas fa-pen"}></i>
+                    <i 
+                        onClick={() => dispatch(deleteTodo(todo.id))}
                         className="fas fa-times "></i>
                 </div>
             </div>

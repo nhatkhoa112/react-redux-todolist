@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import {addTodo} from '../redux/actions';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Header = () => {
     const [text, setText] = useState("");
@@ -11,7 +14,12 @@ const Header = () => {
         // If the user pressed the Enter key:
         const trimmedText = text.trim();
         if (e.which === 13 && trimmedText) {
-            dispatch({ type: "addTodo", payload: trimmedText });
+            dispatch(  addTodo({
+                        id: uuidv4(),
+                        text: text,
+                        status: false,
+                        tag: ""
+                    }));
             setText("");
         }
     };
